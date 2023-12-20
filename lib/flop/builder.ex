@@ -29,7 +29,9 @@ defmodule Flop.Builder do
     :like_and,
     :like_or,
     :ilike_and,
-    :ilike_or
+    :ilike_or,
+    :starts_with,
+    :ends_with
   ]
 
   def filter(query, schema_struct, filters, extra_opts) do
@@ -102,7 +104,7 @@ defmodule Flop.Builder do
          {:compound, fields},
          %Filter{op: op} = filter
        )
-       when op in [:=~, :like, :not_like, :ilike, :not_ilike, :not_empty] do
+       when op in [:=~, :like, :not_like, :ilike, :not_ilike, :not_empty, :starts_with, :ends_with] do
     fields
     |> Enum.map(&get_field_type(schema_struct, &1))
     |> Enum.reduce(false, fn field, dynamic ->

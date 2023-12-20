@@ -166,6 +166,28 @@ defmodule Flop.Operators do
     {fragment, prelude, nil}
   end
 
+  def op_config(:starts_with) do
+    fragment =
+      quote do
+        ilike(field(r, ^var!(field)), ^var!(value))
+      end
+
+    prelude = prelude(:add_wildcard, :after)
+    {fragment, prelude, nil}
+  end
+
+
+  def op_config(:ends_with) do
+    fragment =
+      quote do
+        ilike(field(r, ^var!(field)), ^var!(value))
+      end
+
+    prelude = prelude(:add_wildcard, :before)
+    {fragment, prelude, nil}
+  end
+
+
   def op_config(:not_like) do
     fragment =
       quote do
@@ -303,6 +325,12 @@ defmodule Flop.Operators do
   defp prelude(:add_wildcard) do
     quote do
       var!(value) = Flop.Misc.add_wildcard(var!(value))
+    end
+  end
+
+  defp prelude(:add_wildcard, position) do
+    quote do
+      var!(value) = Flop.Misc.add_wildcard(var!(value), unquote(position))
     end
   end
 

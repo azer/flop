@@ -94,6 +94,8 @@ defmodule Flop.Filter do
           | :not_ilike
           | :ilike_and
           | :ilike_or
+          | :starts_with
+          | :ends_with
 
   @primary_key false
   embedded_schema do
@@ -122,7 +124,9 @@ defmodule Flop.Filter do
         :ilike,
         :not_ilike,
         :ilike_and,
-        :ilike_or
+        :ilike_or,
+        :starts_with,
+        :ends_with
       ]
 
     field :value, Any
@@ -252,7 +256,9 @@ defmodule Flop.Filter do
       :ilike,
       :not_ilike,
       :ilike_and,
-      :ilike_or
+      :ilike_or,
+      :starts_with,
+      :ends_with
     ]
   end
 
@@ -325,7 +331,9 @@ defmodule Flop.Filter do
       :ilike_and,
       :ilike_or,
       :empty,
-      :not_empty
+      :not_empty,
+      :starts_with,
+      :ends_with
     ]
   end
 
@@ -351,7 +359,9 @@ defmodule Flop.Filter do
       :ilike,
       :not_ilike,
       :ilike_and,
-      :ilike_or
+      :ilike_or,
+      :starts_with,
+      :ends_wtih
     ]
   end
 

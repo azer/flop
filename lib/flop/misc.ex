@@ -2,21 +2,38 @@ defmodule Flop.Misc do
   @moduledoc false
 
   @doc """
-  Adds wildcard at the beginning and end of a string for partial matches.
-
+  Adds wildcard at the specified position(s) of a string for partial matches.
   Escapes `%` and `_` within the given string.
 
-      iex> add_wildcard("borscht")
-      "%borscht%"
+  Options for wildcard placement:
+  - :before - Adds wildcard before the string.
+  - :after - Adds wildcard after the string.
+  - :both - Adds wildcards both before and after the string (default).
 
-      iex> add_wildcard("bor%t")
+      iex> add_wildcard("borscht", :before)
+      "%borscht"
+
+      iex> add_wildcard("borscht", :after)
+      "borscht%"
+
+      iex> add_wildcard("bor%t", :both)
       "%bor\\\\%t%"
 
-      iex> add_wildcard("bor_cht")
-      "%bor\\\\_cht%"
+      iex> add_wildcard("bor_cht", :after)
+      "bor\\\\_cht%"
   """
-  def add_wildcard(value) when is_binary(value) do
-    "%" <> String.replace(value, ["%", "_"], &"\\#{&1}") <> "%"
+
+  def add_wildcard(value, position \\ :both, escape_char \\ "\\") when is_binary(value) do
+    escaped_value = String.replace(value, ["\\", "%", "_"], &"#{escape_char}#{&1}")
+
+    case position do
+      :both ->
+	"%" <> escaped_value <> "%"
+      :before ->
+	"%" <> escaped_value
+      :after ->
+	escaped_value <> "%"
+    end
   end
 
   @doc """

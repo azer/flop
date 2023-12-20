@@ -142,7 +142,9 @@ defmodule Flop.Generators do
         :ilike,
         :not_ilike,
         :ilike_and,
-        :ilike_or
+        :ilike_or,
+        :starts_with,
+        :ends_with
       ])
 
   defp operator_by_type(a) when is_number(a),
